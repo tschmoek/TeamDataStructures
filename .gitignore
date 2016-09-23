@@ -1,0 +1,6 @@
+*.cs
+*.txt
+*.manifest
+*.config
+*.csproj
+*.sln
