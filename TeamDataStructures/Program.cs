@@ -1,5 +1,4 @@
 /*Authors: Levi Bowser, Alfredo Olsen, Tanner Schmoekel, Cameron Spilker
- * Section: 2, Group: 11
  * Date: 9/25/2016
  * Write a program in C# using a console application that demonstrates the use of a Stack, Queue, and Dictionary (Map).
  * Functionality
@@ -61,6 +60,8 @@ namespace TeamDataStructures
 
         public static void StackMenu()
         {
+            Console.WriteLine("Stack Menu");
+            spacer();
             Console.WriteLine("1. Add one to Stack");
             Console.WriteLine("2. Add Huge List of Items to Stack");
             Console.WriteLine("3. Display Stack");
@@ -73,6 +74,8 @@ namespace TeamDataStructures
 
         public static void QueueMenu()
         {
+            Console.WriteLine("Queue Menu");
+            spacer();
             Console.WriteLine("1. Add one to Queue");
             Console.WriteLine("2. Add Huge List of Items to Queue");
             Console.WriteLine("3. Display Queue");
@@ -85,6 +88,8 @@ namespace TeamDataStructures
 
         public static void DictionaryMenu()
         {
+            Console.WriteLine("Dictionary Menu");
+            spacer();
             Console.WriteLine("1. Add one to Dictionary");
             Console.WriteLine("2. Add Huge List of Items to Dictionary");
             Console.WriteLine("3. Display Dictionary");
@@ -220,6 +225,13 @@ namespace TeamDataStructures
                     spacer();
                     MainMenu();
                     mainResponse = intCheck(Console.ReadLine());//gather user response
+                    while (mainResponse < 1 || mainResponse > 4) //re-selection check for numbers
+                    {
+                        Console.WriteLine("Please enter valid number.");
+                        spacer();
+                        MainMenu();
+                        mainResponse = intCheck(Console.ReadLine());
+                    }
                 }
                 else if (mainResponse == 1)
                 {
@@ -257,7 +269,7 @@ namespace TeamDataStructures
                                 myStack.Clear();
                                 for (int iCounter = 1; iCounter <= 2000; iCounter++)
                                 {
-                                    myStack.Push("Entry " + iCounter);
+                                    myStack.Push("New Entry " + iCounter);
                                 }
                                 doubles();
                                 break;
@@ -439,7 +451,7 @@ namespace TeamDataStructures
                                 for (int i = 1; i <= 2000; i++)
                                 {
                                     myDictionary.Add(Convert.ToString(i), Convert.ToString(i));
-                                    doubles();
+                                    
                                 }
                                 break;
                             case 3:
@@ -448,7 +460,7 @@ namespace TeamDataStructures
                                 foreach (KeyValuePair<string, string> dictValue in myDictionary)//this displays the list of items in the dictionary 
                                 {
                                     Console.WriteLine("New Entry " + dictValue.Key + ", " + dictValue.Value);
-                                    doubles();
+                                    
                                 }
                                 break;
                             case 4:
@@ -483,14 +495,14 @@ namespace TeamDataStructures
                                 }
                                 else
                                     spacer();
-                                    Console.WriteLine("Item found!");
-                                    searchtimer.Stop();
-                                    ticks = searchtimer.ElapsedTicks;
-                                    miliseconds = searchtimer.ElapsedMilliseconds;
-                                    spacer();
-                                    Console.WriteLine(string.Format("Searching took {0} miliseconds and {1} clock ticks\n", miliseconds, ticks));//displays time search for item
-                                    doubles();
-                                    break;
+                                Console.WriteLine("Item found!");
+                                searchtimer.Stop();
+                                ticks = searchtimer.ElapsedTicks;
+                                miliseconds = searchtimer.ElapsedMilliseconds;
+                                spacer();
+                                Console.WriteLine(string.Format("Searching took {0} miliseconds and {1} clock ticks\n", miliseconds, ticks));//displays time search for item
+                                doubles();
+                                break;
                             case 7:
                                 mainResponse = 7;//this exits the sub-menu and returns to main menu
                                 break;
@@ -509,3 +521,4 @@ namespace TeamDataStructures
         }
     }
 }
+
