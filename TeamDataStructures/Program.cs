@@ -40,7 +40,7 @@ namespace TeamDataStructures
                 }
                 catch (Exception)
                 {
-                    Console.Write("Please put in a valid number: "); //display error message and retake input
+                    Console.Write("\nPlease Enter a valid number: "); //display error message and retake input
                     sNumber = Console.ReadLine();
                 }
             }
@@ -111,8 +111,10 @@ namespace TeamDataStructures
             Console.WriteLine("");
         }
 
+        //this searches the stack for a specific item
         static void StackSearch(Stack<string> myStack, Stack<string> myStack2)
         {
+            
             long ticks = 0;
             long miliseconds = 0;
             spacer();
@@ -126,19 +128,23 @@ namespace TeamDataStructures
                 if (myStack.Count() > 0)
                 {
                     string currentVal = myStack.Peek();
-                    if (currentVal != sUserInput)
+                    if (currentVal != sUserInput)//If its not the value, move it to another stack
                     {
                         myStack2.Push(myStack.Pop());
                     }
-                    else
+                    else//If it is the value, then search
                     {
+                        //Coloring for output..
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Item found!\n");
+                        Console.ResetColor();
                         if (myStack2.Count() == 0)
                         {
                             myStack2.Push(myStack.Pop());
                         }
                         else
                         {
+                            //Put all the other values back into the orignal stack
                             for (int i = 0; i <= myStack2.Count(); i++)
                                 myStack.Push(myStack2.Pop());
                         }
@@ -147,7 +153,10 @@ namespace TeamDataStructures
                 }
                 else
                 {
+                    //Coloring for output..
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Item not found\n");
+                    Console.ResetColor();
                     search = true;
                 }
             }
@@ -155,9 +164,11 @@ namespace TeamDataStructures
             searchtimer.Stop();
             ticks = searchtimer.ElapsedTicks;
             miliseconds = searchtimer.ElapsedMilliseconds;
+            //Prints out the timing..
             Console.WriteLine(string.Format("Searching took {0} miliseconds and {1} clock ticks\n", miliseconds, ticks));
-        }//this searches the stack for a specific item
+        }
 
+        //this searches the stack and deletes the item
         static void StackDelete(Stack<string> myStack, Stack<string> myStack2)
         {
             spacer();
@@ -170,7 +181,7 @@ namespace TeamDataStructures
                 if (myStack.Count() > 0)
                 {
                     string currentVal = myStack.Peek();
-                    if (currentVal != sUserInput)
+                    if (currentVal != sUserInput)//if not value then adds it to a temporary stack
                     {
                         myStack2.Push(myStack.Pop());
                     }
@@ -179,11 +190,11 @@ namespace TeamDataStructures
                         Console.WriteLine("Item deleted!\n");
                         if (myStack2.Count() == 0)
                         {
-                            myStack.Pop();
+                            myStack.Pop();//Take the item out if it is found and there is only one value
                         }
                         else
                         {
-                            myStack.Pop();
+                            myStack.Pop();//Otherwise take out one and re-add the other values in the same order
                             for (int i = 0; i <= myStack2.Count(); i++)
                                 myStack.Push(myStack2.Pop());
                         }
@@ -192,7 +203,9 @@ namespace TeamDataStructures
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Item not found\n");
+                    Console.ResetColor();
                     search = true;
                 }
             }
@@ -235,6 +248,7 @@ namespace TeamDataStructures
                 }
                 else if (mainResponse == 1)
                 {
+                    StackResponse = 0;
                     while (StackResponse != 7)//this loop will stay within the stack menu
                     {
                         spacer();
@@ -252,12 +266,10 @@ namespace TeamDataStructures
                                 spacer();
                                 Console.WriteLine("Your stack contains:");
                                 spacer();
-                                foreach (string entry in myStack)//this shows what is in the stack so far
-                                {
 
+                                foreach (string entry in myStack)//this shows what is in the stack so far
                                     Console.WriteLine(entry);
 
-                                }
                                 doubles();
                                 break;
 
@@ -306,10 +318,11 @@ namespace TeamDataStructures
                 }
                 else if (mainResponse == 2)
                 {
+                    QueueResponse = 0;
                     while (QueueResponse != 7)
                     {
                         spacer();
-                        QueueMenu();
+                        QueueMenu();//Displays specific menu for queue
                         QueueResponse = intCheck(Console.ReadLine());//checks for int for sub-menu selection
                         spacer();
 
@@ -318,6 +331,7 @@ namespace TeamDataStructures
                             case 1: //enter value to queue
                                 Console.Write("Enter value to add to queue: ");
                                 string sInput = Console.ReadLine();
+
                                 if (!myQueue.Contains(sInput)) //if the queue does not contain user's input
                                 {
                                     myQueue.Enqueue(sInput); //add user input into queue
@@ -326,33 +340,31 @@ namespace TeamDataStructures
                                     doubles();
                                 }
                                 else
-                                {
                                     Console.WriteLine(sInput + " was not added. " + sInput + " already exists.");
-                                }
+                                
                                 doubles();
                                 break;
                             case 2: //add 2000 unique entries to queue
                                 myQueue.Clear(); //erases any content in queue
+
                                 Console.WriteLine("Huge list had been added to queue");
                                 for (int iCounter = 1; iCounter <= 2000; iCounter++) //creates 2000 unique entries
-                                {
                                     myQueue.Enqueue("New Entry " + iCounter);
-                                }
+                                
                                 doubles();
                                 break;
                             case 3: //display queue contents
                                 if (myQueue.Count > 0) //checks for content in queue
                                 {
                                     Console.Write("Contents of queue: ");
+
+                                    //Writing out the contents of myQueue
                                     foreach (string entry in myQueue)
-                                    {
-                                        Console.WriteLine(entry);
-                                    }
+                                      Console.WriteLine(entry);
                                 }
                                 else
-                                {
                                     Console.WriteLine("Queue is empty."); //if queue is empty, display
-                                }
+                                
                                 doubles();
                                 break;
                             case 4: //removes selection from queue
@@ -390,23 +402,29 @@ namespace TeamDataStructures
                             case 6: //search for content in queue
                                 Console.Write("What would you like to search for? ");
                                 sInput = Console.ReadLine();
-                                Stopwatch searchtimer = Stopwatch.StartNew();
+                                Stopwatch searchtimer = Stopwatch.StartNew();//timer starts for search..
 
                                 if (myQueue.Contains(sInput)) //checks queue for user's input, outputs message accordingly
                                 {
                                     spacer();
-                                    Console.WriteLine(sInput + " is in the queue.");
+                                    //Coloring for output..
+                                    Console.ForegroundColor = ConsoleColor.Green;
+                                    Console.WriteLine("Item found\n");
+                                    Console.ResetColor();
                                 }
                                 else
                                 {
-                                    spacer();
-                                    Console.WriteLine(sInput + " does not exist.");
+                                    //Coloring for output..
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.WriteLine("Item not found\n");
+                                    Console.ResetColor();
                                 }
 
-                                searchtimer.Stop();
+                                searchtimer.Stop();//timer stops here
                                 ticks = searchtimer.ElapsedTicks;
                                 miliseconds = searchtimer.ElapsedMilliseconds;
                                 spacer();
+                                //Prints out the timing..
                                 Console.WriteLine(string.Format("Searching took {0} miliseconds and {1} clock ticks\n", miliseconds, ticks));
                                 doubles();
                                 break;
@@ -421,6 +439,7 @@ namespace TeamDataStructures
                 }
                 else if (mainResponse == 3)
                 {
+                    DictionaryResponse = 0;
                     while (DictionaryResponse != 7)
                     {
                         spacer();
@@ -437,31 +456,27 @@ namespace TeamDataStructures
                                 spacer();
                                 Console.WriteLine("Your dictionary contains");
                                 spacer();
+
                                 foreach (KeyValuePair<string, string> dictValue in myDictionary)
-                                {
-                                    Console.WriteLine("New Entry " + dictValue.Key + ", " + dictValue.Value);//this writes the dictionary for user to see what has been added
-                                    doubles();
-                                }
+                                    Console.WriteLine("New Entry " + dictValue.Key + ", " + dictValue.Value + "\n");//this writes the dictionary for user to see what has been added
+                                  
                                 dictionarykey++;
                                 break;
                             case 2:
                                 spacer();
                                 myDictionary.Clear();
                                 Console.WriteLine("Huge list added"); //add a huge list of 2000 items to dictionary 
+
                                 for (int i = 1; i <= 2000; i++)
-                                {
                                     myDictionary.Add(Convert.ToString(i), Convert.ToString(i));
-                                    
-                                }
                                 break;
                             case 3:
                                 spacer();
                                 Console.WriteLine("Here is your list");
+
                                 foreach (KeyValuePair<string, string> dictValue in myDictionary)//this displays the list of items in the dictionary 
-                                {
                                     Console.WriteLine("New Entry " + dictValue.Key + ", " + dictValue.Value);
-                                    
-                                }
+
                                 break;
                             case 4:
                                 spacer();
@@ -486,22 +501,41 @@ namespace TeamDataStructures
                                 spacer();
                                 Console.Write("Enter the value that you would like to find: ");//searches dictionary for specific item
                                 sUserResponse = Console.ReadLine();
+
                                 Stopwatch searchtimer = Stopwatch.StartNew();//timer to see how fast the dictionary searchs for item
+
                                 var itemToSearch = myDictionary.Where(f => f.Value == sUserResponse).ToArray();
                                 if (itemToSearch.Count() == 0)
                                 {
-                                    Console.WriteLine("Item not found");
+                                    //Coloring for output..
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.WriteLine("Item not found\n");
+                                    Console.ResetColor();
+
+                                    searchtimer.Stop();//Timer is finished
+                                    ticks = searchtimer.ElapsedTicks;
+                                    miliseconds = searchtimer.ElapsedMilliseconds;
+                                    spacer();
+                                    //Prints out the timing..
+                                    Console.WriteLine(string.Format("Searching took {0} miliseconds and {1} clock ticks\n", miliseconds, ticks));//displays time search for item
                                     doubles();
                                 }
                                 else
+                                {
                                     spacer();
-                                Console.WriteLine("Item found!");
-                                searchtimer.Stop();
-                                ticks = searchtimer.ElapsedTicks;
-                                miliseconds = searchtimer.ElapsedMilliseconds;
-                                spacer();
-                                Console.WriteLine(string.Format("Searching took {0} miliseconds and {1} clock ticks\n", miliseconds, ticks));//displays time search for item
-                                doubles();
+                                    //Coloring for output..
+                                    Console.ForegroundColor = ConsoleColor.Green;
+                                    Console.WriteLine("Item found!\n");
+                                    Console.ResetColor();
+
+                                    searchtimer.Stop();//Timer is finished
+                                    ticks = searchtimer.ElapsedTicks;
+                                    miliseconds = searchtimer.ElapsedMilliseconds;
+                                    spacer();
+                                    //Prints out the timing..
+                                    Console.WriteLine(string.Format("Searching took {0} miliseconds and {1} clock ticks\n", miliseconds, ticks));//displays time search for item
+                                    doubles();
+                                }
                                 break;
                             case 7:
                                 mainResponse = 7;//this exits the sub-menu and returns to main menu
@@ -516,7 +550,8 @@ namespace TeamDataStructures
                 }
             }
 
-            Console.WriteLine("YOU HAVE LEFT THE PROGRAM!");//informs user of decision
+            Console.WriteLine("\nYou have exited the program.\n");//informs user of decision
+            Console.WriteLine("Press Any Key.");
             Console.Read();//keeps program open until user exits 
         }
     }
